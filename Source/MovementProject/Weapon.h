@@ -30,16 +30,25 @@ protected:
 	bool canAttack = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int ammoCurrent = 0;
+	int ammoMagazineCurrent = 8;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int ammoMax = 0;
+	int ammoMagazineMax = 8;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int ammoReservedCurrent = 32;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int ammoReservedMax = 32;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AFirstPersonCharacter* owningPlayer;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void Attack(AFirstPersonCharacter* player);
+
+	UFUNCTION(BlueprintCallable)
+	void Reload();
 
 public:	
 	// Called every frame

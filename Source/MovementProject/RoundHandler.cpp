@@ -20,7 +20,7 @@ void ARoundHandler::BeginPlay()
 // Begin a new round
 void ARoundHandler::RoundStart() {
 	round++;
-	enemiesToSpawn = (24 + round * 1.5f);
+	enemiesToSpawn = (5 + round * 1.5f);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Round %d"), round));
 	GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundLoop, 7.0f);
 }

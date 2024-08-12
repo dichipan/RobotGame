@@ -18,6 +18,22 @@ void AWeapon::BeginPlay()
 	
 }
 
+// Called to set new ammo, assumes ammoReserveCurrent > 0
+void AWeapon::Reload()
+{
+	if (ammoReservedCurrent > 0) {
+		int ammoToReload = ammoMagazineMax - ammoMagazineCurrent;
+		if (ammoReservedCurrent >= ammoToReload) {
+			ammoReservedCurrent -= ammoToReload;
+			ammoMagazineCurrent = ammoMagazineMax;
+		}
+		else {
+			ammoMagazineCurrent += ammoReservedCurrent;
+			ammoReservedCurrent = 0;
+		}
+	}
+}
+
 // Called every frame
 void AWeapon::Tick(float DeltaTime)
 {
