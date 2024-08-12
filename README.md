@@ -3,7 +3,8 @@ Current version includes:
 - Weapon mechanics (WIP)
 - Robot spawning system
 - Round/Wave system
-- Robot mechanics (WIP)
+- Robot mechanics
+- Interactable Items
 
 - Two completed models that will be included in the game:
   
