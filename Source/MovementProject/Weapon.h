@@ -42,6 +42,27 @@ protected:
 	int ammoReservedMax = 32;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float crosshairAmountMax = 1.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float crosshairAmountCurrent = 1.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float crosshairDefaultOffset = 50.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float verticalRecoilBottom = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float verticalRecoilTop = 0.01f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float horizontalRecoilBottom = -0.01f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float horizontalRecoilTop = 0.01f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AFirstPersonCharacter* owningPlayer;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

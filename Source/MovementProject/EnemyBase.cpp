@@ -24,19 +24,6 @@ void AEnemyBase::BeginPlay()
 
 }
 
-// Called every frame
-void AEnemyBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	//if (targetPlayer && DistanceToPlayer() < attackDistance && !isAttacking) {
-		//isAttacking = true;
-		//Attack();
-		//GetWorld()->GetTimerManager().SetTimer(handle, this, &AEnemyBase::ResetAttack, attackCooldown);
-	//}
-	//if (targetPlayer) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%f"), DistanceToPlayer()));
-
-}
-
 // Called to bind functionality to input
 void AEnemyBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

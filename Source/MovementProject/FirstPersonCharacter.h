@@ -79,10 +79,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool holdingAttack = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool isAiming = false;
+
 	UPROPERTY(BlueprintReadWrite)
 	bool isCrouching;
 	UPROPERTY(BlueprintReadWrite)
 	bool canUncrouch;
+
+	UPROPERTY(BlueprintReadWrite)
+	FRotator lookRotation;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool isSprinting;
@@ -123,6 +129,9 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	bool CanUncrouchCheck();
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void StopWeaponRecoil();
+
 	// Sprint
 	UFUNCTION(BlueprintCallable)
 	void SprintStart();
@@ -134,7 +143,7 @@ protected:
 	void SprintEnd();
 	void SprintReleased();
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void  SprintShakeEnd();
+	void SprintShakeEnd();
 
 	void Interact();
 
@@ -151,7 +160,7 @@ private:
 	void OnWindowFocusChanged(bool bIsFocused);
 
 	// UComponents
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CameraSpringArm", meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* cameraSpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* playerCamera;
