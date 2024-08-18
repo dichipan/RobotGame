@@ -45,6 +45,11 @@ void AFirstPersonCharacter::BeginPlay()
 	playerCamera->FieldOfView = fieldOfView;
 }
 
+void AFirstPersonCharacter::AddPoints(int addedPoints)
+{
+	points += addedPoints;
+}
+
 // Called every frame
 void AFirstPersonCharacter::Tick(float DeltaTime)
 {
@@ -169,11 +174,17 @@ void AFirstPersonCharacter::LookHorizontal(float Axis)
 		weaponSlot->SetRelativeLocation(location);
 
 		// Set dynamic weapon rotation
-		float newRot = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Yaw, Axis * 5.0f, FApp::GetDeltaTime(), 1.5f);
-		float newRot2 = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Roll, Axis * 5.0f, FApp::GetDeltaTime(), 1.5f);
+		float newRot = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Yaw, FMath::Clamp(Axis, -2.0f, 2.0f), FApp::GetDeltaTime(), 1.5f);
+		float newRot2 = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Roll, FMath::Clamp(Axis, -2.0f, 2.0f), FApp::GetDeltaTime(), 1.5f);
 		FRotator rotation = FRotator(weaponSlot->GetRelativeRotation().Pitch, newRot, newRot2);
 		FQuat newRotation = rotation.Quaternion();
 		weaponSlot->SetRelativeRotation(newRotation);
+	}
+	else {
+		// Set dynamic weapon location
+		float newLoc = FMath::FInterpTo(weaponSlot->GetRelativeLocation().Y, FMath::Clamp(Axis * 0.5f, -0.25f, 0.25f), FApp::GetDeltaTime(), 5.0f);
+		FVector location = FVector(weaponSlot->GetRelativeLocation().X, newLoc, weaponSlot->GetRelativeLocation().Z);
+		weaponSlot->SetRelativeLocation(location);
 	}
 }
 
@@ -197,10 +208,16 @@ void AFirstPersonCharacter::LookVertical(float Axis)
 		weaponSlot->SetRelativeLocation(location);
 
 		// Set dynamic weapon rotation
-		float newRot = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Pitch, Axis * 5.0f, FApp::GetDeltaTime(), 1.5f);
+		float newRot = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Pitch, FMath::Clamp(Axis * 5.0f, -10.0f, 10.0f), FApp::GetDeltaTime(), 1.5f);
 		FRotator rotation = FRotator(newRot, weaponSlot->GetRelativeRotation().Yaw, weaponSlot->GetRelativeRotation().Roll);
 		FQuat newRotation = rotation.Quaternion();
 		weaponSlot->SetRelativeRotation(newRotation);
+	}
+	else {
+		// Set dynamic weapon location
+		float newLoc = FMath::FInterpTo(weaponSlot->GetRelativeLocation().Z, FMath::Clamp(Axis * -0.5, -0.25f, 0.25f), FApp::GetDeltaTime(), 5.0f);
+		FVector location = FVector(weaponSlot->GetRelativeLocation().X, weaponSlot->GetRelativeLocation().Y, newLoc);
+		weaponSlot->SetRelativeLocation(location);
 	}
 }
 

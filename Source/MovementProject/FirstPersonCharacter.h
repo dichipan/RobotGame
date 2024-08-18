@@ -45,6 +45,9 @@ protected:
 	float armorMax = 100.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int points = 500;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float speed = 400.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -146,6 +149,9 @@ protected:
 	void SprintShakeEnd();
 
 	void Interact();
+
+	UFUNCTION(BlueprintCallable)
+	void AddPoints(int addedPoints);
 
 public:
 	virtual void Tick(float DeltaTime) override;

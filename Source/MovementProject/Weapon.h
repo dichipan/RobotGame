@@ -63,6 +63,15 @@ protected:
 	float horizontalRecoilTop = 0.01f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float aimDistance = 10.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float aimFOVMultiplier = 0.5f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float aimSpeed = 1.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AFirstPersonCharacter* owningPlayer;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
