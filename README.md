@@ -5,6 +5,8 @@ Current version includes:
 - Round/Wave system
 - Robot mechanics
 - Interactable Items
+- Animated robot models
+- Point system
 
 - Two completed models that will be included in the game:
   
