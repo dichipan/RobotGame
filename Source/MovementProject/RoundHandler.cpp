@@ -22,7 +22,7 @@ void ARoundHandler::RoundStart() {
 	round++;
 	enemiesToSpawn = (5 + round * 1.5f);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Round %d"), round));
-	GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundLoop, 7.0f);
+	GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundLoop, roundStartDelay);
 }
 
 // Spawn correct amount of zombies at start of round
@@ -52,7 +52,7 @@ void ARoundHandler::SpawnEnemy() {
 void ARoundHandler::EnemyDeath() {
 	enemiesSpawned--;
 	if (enemiesSpawned <= 0) {
-		GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundStart, roundStartDelay);
+		GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundStart, 3.0f);
 	}
 	else {
 		SpawnEnemy();

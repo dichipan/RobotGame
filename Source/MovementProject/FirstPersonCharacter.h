@@ -25,6 +25,9 @@ protected:
 	float sensitivity = 1.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float currentSensitivity = 1.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool holdToCrouch;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

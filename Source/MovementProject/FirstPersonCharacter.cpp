@@ -43,6 +43,7 @@ void AFirstPersonCharacter::BeginPlay()
 	viewportSize.X /= 2;
 	viewportSize.Y /= 2;
 	playerCamera->FieldOfView = fieldOfView;
+	currentSensitivity = sensitivity;
 }
 
 void AFirstPersonCharacter::AddPoints(int addedPoints)
@@ -160,7 +161,7 @@ void AFirstPersonCharacter::LookHorizontal(float Axis)
 {
 	if (canLook)
 	{
-		AddControllerYawInput(Axis * sensitivity);
+		AddControllerYawInput(Axis * currentSensitivity);
 		if (Axis != 0) {
 			movingCamera = true;
 			lookRotation = GetControlRotation();
@@ -194,7 +195,7 @@ void AFirstPersonCharacter::LookVertical(float Axis)
 {
 	if (canLook)
 	{
-		AddControllerPitchInput(Axis * sensitivity);
+		AddControllerPitchInput(Axis * currentSensitivity);
 		if (Axis != 0) {
 			movingCamera = true;
 			lookRotation = GetControlRotation();
