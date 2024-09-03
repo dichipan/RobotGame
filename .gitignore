@@ -45,12 +45,18 @@
 SourceArt/**/*.png
 SourceArt/**/*.tga
 
+# Assets
+Content/Assets/*
+
 # Binary Files
 Binaries/*
 Plugins/*/Binaries/*
 
 # Builds
 Build/*
+
+# Mod Stuff
+Plugins/ModTest/*
 
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
 !Build/*/

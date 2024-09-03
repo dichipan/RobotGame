@@ -29,7 +29,7 @@ void ARoundHandler::RoundStart() {
 void ARoundHandler::RoundLoop() {
 	if (enemiesToSpawn > 0 && enemiesSpawned < enemyCap) {
 		SpawnEnemy();
-		GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundLoop, 1.0f);
+		GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundLoop, spawnDelay);
 	}
 }
 
@@ -52,7 +52,7 @@ void ARoundHandler::SpawnEnemy() {
 void ARoundHandler::EnemyDeath() {
 	enemiesSpawned--;
 	if (enemiesSpawned <= 0) {
-		GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundStart, 3.0f);
+		GetWorld()->GetTimerManager().SetTimer(handle, this, &ARoundHandler::RoundStart, roundStartDelay);
 	}
 	else {
 		SpawnEnemy();

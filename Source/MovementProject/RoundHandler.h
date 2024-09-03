@@ -27,6 +27,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int enemyCap = 30;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float spawnDelay = 1.75f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float roundStartDelay = 7.0f;
+
 	FTimerHandle handle;
 
 protected:
