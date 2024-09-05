@@ -1,15 +1,18 @@
 Current version includes:
 - First-person controls and animations
-- Weapon mechanics (WIP)
+- Weapon mechanics
 - Robot spawning system
 - Round/Wave system
-- Robot mechanics
+- Robot AI
 - Interactable Items
-- Animated robot models
+- Animated models
 - Point system
+- Upgrade system
 
-- Two completed models that will be included in the game:
-  
+Very early Pre-Alpha releases playable.
+
+![robots2](https://github.com/user-attachments/assets/cc556488-340c-451e-8e2a-80818aa214b6)
+![robots](https://github.com/user-attachments/assets/265a3707-feb4-4c6d-96c9-d06acc293b34)
 ![image](https://github.com/user-attachments/assets/b8ce337e-6611-4a16-ac33-cf248f9f7aee)
 ![image](https://github.com/user-attachments/assets/24d2b5bf-907e-4006-8e6d-a342f78526eb)
 
