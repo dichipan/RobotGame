@@ -3,6 +3,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/Controller.h"
+#include "EnhancedInputComponent.h"
 #include <Net/UnrealNetwork.h>
 #include "Engine/World.h"
 
@@ -31,7 +32,15 @@ void AFirstPersonCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	FSlateApplication::Get().OnApplicationActivationStateChanged().AddUObject(this, &AFirstPersonCharacter::OnWindowFocusChanged);
-	GetCharacterMovement()->AirControl = 1;
+
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller)) {
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(InputMapping, 0);
+		}
+	}
+
+	GetCharacterMovement()->AirControl = 0.1f;
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 	GetCharacterMovement()->GravityScale = 2.0f;
 	GetCharacterMovement()->GroundFriction = 0.0f;
@@ -65,13 +74,16 @@ void AFirstPersonCharacter::Tick(float DeltaTime)
 void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent)) {
+		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &AFirstPersonCharacter::PlayerJump);
+		EnhancedInputComponent->BindAction(IA_Sprint, ETriggerEvent::Started, this, &AFirstPersonCharacter::SprintPressed);
+		EnhancedInputComponent->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &AFirstPersonCharacter::SprintReleased);
+	}
 	PlayerInputComponent->BindAxis("LookHorizontal", this, &AFirstPersonCharacter::LookHorizontal);
 	PlayerInputComponent->BindAxis("LookVertical", this, &AFirstPersonCharacter::LookVertical);
 	PlayerInputComponent->BindAxis("MoveHorizontal", this, &AFirstPersonCharacter::MoveHorizontal);
 	PlayerInputComponent->BindAxis("MoveVertical", this, &AFirstPersonCharacter::MoveVertical);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::PlayerJump);
-	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AFirstPersonCharacter::SprintPressed);
-	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AFirstPersonCharacter::SprintReleased);
 }
 
 // When focus on window is lost, set inFocus false
@@ -175,8 +187,8 @@ void AFirstPersonCharacter::LookHorizontal(float Axis)
 		weaponSlot->SetRelativeLocation(location);
 
 		// Set dynamic weapon rotation
-		float newRot = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Yaw, FMath::Clamp(Axis, -2.0f, 2.0f), FApp::GetDeltaTime(), 1.5f);
-		float newRot2 = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Roll, FMath::Clamp(Axis, -2.0f, 2.0f), FApp::GetDeltaTime(), 1.5f);
+		float newRot = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Yaw, FMath::Clamp(Axis * -2.0f, -5.0f, 5.0f), FApp::GetDeltaTime(), 3.0f);
+		float newRot2 = FMath::FInterpTo(weaponSlot->GetRelativeRotation().Roll, FMath::Clamp(Axis * -2.0f, -5.0f, 5.0f), FApp::GetDeltaTime(), 3.0f);
 		FRotator rotation = FRotator(weaponSlot->GetRelativeRotation().Pitch, newRot, newRot2);
 		FQuat newRotation = rotation.Quaternion();
 		weaponSlot->SetRelativeRotation(newRotation);
@@ -188,7 +200,6 @@ void AFirstPersonCharacter::LookHorizontal(float Axis)
 		weaponSlot->SetRelativeLocation(location);
 	}
 }
-
 
 // Controls vertical mouse movement
 void AFirstPersonCharacter::LookVertical(float Axis)
@@ -225,7 +236,7 @@ void AFirstPersonCharacter::LookVertical(float Axis)
 // Triggered when player lands
 void AFirstPersonCharacter::Landed(const FHitResult& Hit)
 {
-	LandedShake();
+	playerController->PlayerCameraManager->StartCameraShake(landShake);
 	isGrounded = true;
 	jumpsLeft = numberOfJumps;
 	SprintStart();

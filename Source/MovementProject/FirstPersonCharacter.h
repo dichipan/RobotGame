@@ -3,7 +3,12 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "Camera/CameraShakeBase.h"
 #include "FirstPersonCharacter.generated.h"
+
+class UInputMappingContext;
+class UInputAction;
 
 UCLASS()
 class MOVEMENTPROJECT_API AFirstPersonCharacter : public ACharacter
@@ -18,42 +23,36 @@ protected:
 
 	// Player settings
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerSettings)
 	float fieldOfView = 90.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerSettings)
 	float sensitivity = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerSettings)
 	float currentSensitivity = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerSettings)
 	bool holdToCrouch;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerSettings)
 	bool holdToSprint;
 
 	// Character settings
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	float healthCurrent = 100.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	float healthMax = 100.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float armorCurrent = 100.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float armorMax = 100.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	int points = 500;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	float speed = 400.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	float sprintSpeed = 600.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -65,15 +64,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool jumpable = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	int numberOfJumps = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	int jumpsLeft;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	float jumpHeight = 600.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PlayerStats)
 	float secondaryJumpHeight = 500.0f;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -121,9 +120,9 @@ protected:
 	void LookHorizontal(float Axis);
 	void LookVertical(float Axis);
 	void Landed(const FHitResult& Hit) override;
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void LandedShake();
 	void OnWalkingOffLedge_Implementation(const FVector& PreviousFloorImpactNormal, const FVector& PreviousFloorContactNormal, const FVector& PreviousLocation, float TimeDelta) override;
+	UPROPERTY(EditAnywhere, Category = CameraShakes)
+	TSubclassOf<UCameraShakeBase> landShake;
 
 	// Advanced Movement
 	UFUNCTION(BlueprintCallable)
@@ -155,6 +154,28 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void AddPoints(int addedPoints);
+
+	// Inputs
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputMappingContext* InputMapping;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* IA_Jump;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* IA_Sprint;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* IA_LookVertical;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* IA_LookHorizontal;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* IA_MoveVertical;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* IA_MoveHorizontal;
 
 public:
 	virtual void Tick(float DeltaTime) override;
